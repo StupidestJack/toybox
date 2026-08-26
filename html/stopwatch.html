@@ -1,0 +1,388 @@
+<!--This project made by Gemini.-->
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>質感碼表 | by Google Gemini 3</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            --glass-bg: rgba(255, 255, 255, 0.45);
+            --glass-border: rgba(255, 255, 255, 0.7);
+            --text-main: #2c3e50;
+            --text-sub: #546e7a;
+            --card-shadow: 0 8px 32px rgba(149, 157, 165, 0.15);
+            --accent-green: rgba(67, 160, 71, 0.4);
+            --accent-orange: rgba(255, 152, 0, 0.4);
+            --record-item-bg: rgba(0, 0, 0, 0.03);
+        }
+
+        [data-theme="dark"] {
+            --bg-gradient: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            --glass-bg: rgba(0, 0, 0, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ecf0f1;
+            --text-sub: #bdc3c7;
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --accent-green: rgba(46, 204, 113, 0.3);
+            --accent-orange: rgba(230, 126, 34, 0.3);
+            --record-item-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background 0.5s ease;
+        }
+
+        .controls {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .glass-btn {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 12px 20px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .glass-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stopwatch-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 25px;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: var(--card-shadow);
+            animation: slideIn 0.4s ease-out;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-delete {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0.6;
+        }
+
+        .display-container {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .display-main {
+            font-size: 3.8rem;
+            font-weight: 800;
+            font-family: 'SF Mono', 'Roboto Mono', monospace;
+            letter-spacing: -1px;
+            display: block;
+            line-height: 1;
+        }
+
+        .display-sub {
+            font-size: 1.4rem;
+            color: var(--text-sub);
+            font-family: 'SF Mono', 'Roboto Mono', monospace;
+            opacity: 0.8;
+            margin-top: 8px;
+            display: block;
+        }
+
+        .btn-group { display: flex; gap: 12px; margin-top: 25px; }
+
+        .main-action-btn {
+            flex: 1;
+            padding: 16px;
+            font-size: 1rem;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-toggle { background: var(--accent-green); }
+        .btn-reset { background: rgba(120, 120, 120, 0.1); }
+        .main-action-btn:active { transform: scale(0.96); }
+
+        .record-section {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--glass-border);
+            max-height: 180px;
+            overflow-y: auto;
+        }
+
+        .record-item {
+            background: var(--record-item-bg);
+            padding: 12px 15px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+            color: var(--text-sub);
+        }
+
+        .record-time-primary {
+            font-weight: 800;
+            color: var(--text-main);
+            font-size: 1.1rem;
+            margin-right: 8px;
+        }
+
+        .record-time-secondary {
+            font-family: 'SF Mono', monospace;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+    <div class="controls">
+        <button id="theme-switch" class="glass-btn">主題：自動</button>
+        <button id="lang-switch" class="glass-btn">Switch Language</button>
+        <button id="add-stopwatch" class="glass-btn" style="background: var(--accent-green);">＋ 新增碼表</button>
+    </div>
+
+    <div class="container" id="stopwatch-container"></div>
+
+<script>
+    let isEng = false;
+    let swCount = 0;
+    let themeMode = 'auto';
+
+    // 格式化工具
+    function formatTime(ms) {
+        const totalSeconds = ms / 1000;
+        const m = Math.floor(totalSeconds / 60);
+        const s = Math.floor(totalSeconds % 60);
+        const hs = Math.floor((ms % 1000) / 10);
+        
+        const mm = String(m).padStart(2, '0');
+        const ss = String(s).padStart(2, '0');
+        const hss = String(hs).padStart(2, '0');
+        
+        return {
+            secondsOnly: totalSeconds.toFixed(2) + " s",
+            mmss_ss: `${mm}:${ss}.${hss}`
+        };
+    }
+
+    // 主題管理
+    function applyTheme() {
+        let targetTheme = themeMode;
+        if (themeMode === 'auto') {
+            targetTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.body.setAttribute('data-theme', targetTheme);
+        
+        const themes = { light: '淺色', dark: '深色', auto: '自動' };
+        const engThemes = { light: 'Light', dark: 'Dark', auto: 'Auto' };
+        document.getElementById('theme-switch').textContent = 
+            (isEng ? 'Theme: ' : '主題：') + (isEng ? engThemes[themeMode] : themes[themeMode]);
+    }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (themeMode === 'auto') applyTheme();
+    });
+
+    document.getElementById('theme-switch').addEventListener('click', function() {
+        const modes = ['light', 'dark', 'auto'];
+        themeMode = modes[(modes.indexOf(themeMode) + 1) % modes.length];
+        applyTheme();
+    });
+
+    // 碼表類別
+    class Stopwatch {
+        constructor(id, container) {
+            this.id = id;
+            this.startTime = 0;
+            this.elapsedTime = 0;
+            this.timerInterval = null;
+            this.running = false;
+            this.initDOM(container);
+        }
+
+        initDOM(container) {
+            const card = document.createElement('div');
+            card.className = 'stopwatch-card';
+            card.id = `sw-${this.id}`;
+            card.innerHTML = `
+                <button class="btn-delete" title="刪除">✕</button>
+                <div class="display-container">
+                    <span class="display-main">0.00 s</span>
+                    <span class="display-sub">00:00.00</span>
+                </div>
+                <div class="btn-group">
+                    <button class="main-action-btn btn-toggle">${isEng ? 'Start' : '開始'}</button>
+                    <button class="main-action-btn btn-reset">${isEng ? 'Lap & Reset' : '紀錄與重置'}</button>
+                </div>
+                <div class="record-section" style="display:none;">
+                    <div class="record-list"></div>
+                </div>
+            `;
+            container.appendChild(card);
+
+            this.el = card;
+            this.displayMain = card.querySelector('.display-main');
+            this.displaySub = card.querySelector('.display-sub');
+            this.recordSection = card.querySelector('.record-section');
+            this.recordListEl = card.querySelector('.record-list');
+            this.toggleBtn = card.querySelector('.btn-toggle');
+
+            this.toggleBtn.addEventListener('click', () => this.toggle());
+            card.querySelector('.btn-reset').addEventListener('click', () => this.reset());
+            card.querySelector('.btn-delete').addEventListener('click', () => this.remove());
+        }
+
+        updateDisplay() {
+            const time = formatTime(this.elapsedTime);
+            this.displayMain.textContent = time.secondsOnly;
+            this.displaySub.textContent = time.mmss_ss;
+        }
+
+        toggle() {
+            if (!this.running) {
+                this.startTime = Date.now() - this.elapsedTime;
+                this.timerInterval = setInterval(() => {
+                    this.elapsedTime = Date.now() - this.startTime;
+                    this.updateDisplay();
+                }, 10);
+                this.running = true;
+                this.toggleBtn.textContent = isEng ? 'Pause' : '暫停';
+                this.toggleBtn.style.background = 'var(--accent-orange)';
+            } else {
+                this.stop();
+            }
+        }
+
+        stop() {
+            clearInterval(this.timerInterval);
+            this.running = false;
+            this.toggleBtn.textContent = isEng ? 'Start' : '開始';
+            this.toggleBtn.style.background = 'var(--accent-green)';
+        }
+
+        reset() {
+            if (this.elapsedTime > 0) {
+                this.recordSection.style.display = 'block';
+                const time = formatTime(this.elapsedTime);
+                const count = this.recordListEl.children.length + 1;
+                const lapLabel = isEng ? 'Lap' : '紀錄';
+                
+                const item = document.createElement('div');
+                item.className = 'record-item';
+                item.innerHTML = `
+                    <span>${lapLabel} ${count}</span>
+                    <span>
+                        <span class="record-time-primary">${time.secondsOnly}</span>
+                        <span class="record-time-secondary">(${time.mmss_ss})</span>
+                    </span>
+                `;
+                this.recordListEl.insertBefore(item, this.recordListEl.firstChild);
+            }
+            this.stop();
+            this.elapsedTime = 0;
+            this.updateDisplay();
+        }
+
+        // 原生 JS 平滑刪除動畫
+        remove() {
+            this.stop();
+            const animation = this.el.animate([
+                { opacity: 1, height: this.el.offsetHeight + 'px', marginBottom: '20px', transform: 'scale(1)' },
+                { opacity: 0, height: '0px', marginBottom: '0px', padding: '0px', transform: 'scale(0.9)' }
+            ], {
+                duration: 400,
+                easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+            });
+
+            animation.onfinish = () => this.el.remove();
+        }
+    }
+
+    // 初始化與全域事件
+    document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('stopwatch-container');
+        const addBtn = document.getElementById('add-stopwatch');
+        const langBtn = document.getElementById('lang-switch');
+
+        const addSW = () => {
+            swCount++;
+            new Stopwatch(swCount, container);
+        };
+
+        applyTheme();
+        addSW();
+
+        addBtn.addEventListener('click', addSW);
+
+        langBtn.addEventListener('click', () => {
+            isEng = !isEng;
+            langBtn.textContent = isEng ? "中文" : "Switch Language";
+            addBtn.textContent = isEng ? "＋ Add Stopwatch" : "＋ 新增碼表";
+            applyTheme();
+
+            // 更新所有現有的 DOM
+            document.querySelectorAll('.stopwatch-card').forEach(card => {
+                const toggle = card.querySelector('.btn-toggle');
+                const isPaused = toggle.textContent === "開始" || toggle.textContent === "Start";
+                toggle.textContent = isPaused ? (isEng ? "Start" : "開始") : (isEng ? "Pause" : "暫停");
+                card.querySelector('.btn-reset').textContent = isEng ? "Lap & Reset" : "紀錄與重置";
+                
+                card.querySelectorAll('.record-item span:first-child').forEach(span => {
+                    const num = span.textContent.match(/\d+/);
+                    span.textContent = (isEng ? 'Lap ' : '紀錄 ') + num;
+                });
+            });
+        });
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,556 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AccountNo" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="511" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Nickname" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="CreateDateTime" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UpdateDateTime" Type="datetimeoffset" Precision="7" />
+          <Property Name="Role" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="LockDateTime" Type="datetimeoffset" Precision="7" />
+          <Property Name="LockReason" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="ChatRoom">
+          <Key>
+            <PropertyRef Name="ChatRoomId" />
+          </Key>
+          <Property Name="ChatRoomId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ChatRoomNo" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="CreateDateTime" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UpdateDateTime" Type="datetimeoffset" Precision="7" />
+        </EntityType>
+        <EntityType Name="ChatRoomMember">
+          <Key>
+            <PropertyRef Name="ChatRoomMemberId" />
+          </Key>
+          <Property Name="ChatRoomMemberId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ChatRoomMemberNo" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChatRoomId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AccountId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Role" Type="int" Nullable="false" />
+          <Property Name="CreateDateTime" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UpdateDateTime" Type="datetimeoffset" Precision="7" />
+        </EntityType>
+        <EntityType Name="ChatRoomRecord">
+          <Key>
+            <PropertyRef Name="ChatRoomRecordId" />
+          </Key>
+          <Property Name="ChatRoomRecordId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ChatRoomRecordNo" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChatRoomId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ChatRoomMemberId" Type="uniqueidentifier" />
+          <Property Name="Message" Type="nvarchar" MaxLength="511" />
+          <Property Name="CreateDateTime" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UpdateDateTime" Type="datetimeoffset" Precision="7" />
+        </EntityType>
+        <EntityType Name="Friend">
+          <Key>
+            <PropertyRef Name="FriendId" />
+          </Key>
+          <Property Name="FriendId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FriendNo" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FriendAccountId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+          <Property Name="CreateDateTime" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UpdateDateTime" Type="datetimeoffset" Precision="7" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="New_ChatReviewTask">
+          <Key>
+            <PropertyRef Name="New_ReviewId" />
+          </Key>
+          <Property Name="New_ReviewId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="New_ChatRoomRecordId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="New_DetectedKeyword" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="New_ReviewStatus" Type="tinyint" Nullable="false" />
+          <Property Name="New_CreateDateTime" Type="datetimeoffset" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_ChatRoomMember_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="ChatRoomMember" Type="Self.ChatRoomMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="ChatRoomMember">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChatRoomMember_ChatRoom">
+          <End Role="ChatRoom" Type="Self.ChatRoom" Multiplicity="1" />
+          <End Role="ChatRoomMember" Type="Self.ChatRoomMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChatRoom">
+              <PropertyRef Name="ChatRoomId" />
+            </Principal>
+            <Dependent Role="ChatRoomMember">
+              <PropertyRef Name="ChatRoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChatRoomRecord_ChatRoom">
+          <End Role="ChatRoom" Type="Self.ChatRoom" Multiplicity="1" />
+          <End Role="ChatRoomRecord" Type="Self.ChatRoomRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChatRoom">
+              <PropertyRef Name="ChatRoomId" />
+            </Principal>
+            <Dependent Role="ChatRoomRecord">
+              <PropertyRef Name="ChatRoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChatRoomRecord_ChatRoomMember">
+          <End Role="ChatRoomMember" Type="Self.ChatRoomMember" Multiplicity="0..1" />
+          <End Role="ChatRoomRecord" Type="Self.ChatRoomRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChatRoomMember">
+              <PropertyRef Name="ChatRoomMemberId" />
+            </Principal>
+            <Dependent Role="ChatRoomRecord">
+              <PropertyRef Name="ChatRoomMemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Friend_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Friend" Type="Self.Friend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Friend">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Friend_Account1">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Friend" Type="Self.Friend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Friend">
+              <PropertyRef Name="FriendAccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_New_ChatReviewTask_ChatRoomRecord">
+          <End Role="ChatRoomRecord" Type="Self.ChatRoomRecord" Multiplicity="1" />
+          <End Role="New_ChatReviewTask" Type="Self.New_ChatReviewTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChatRoomRecord">
+              <PropertyRef Name="ChatRoomRecordId" />
+            </Principal>
+            <Dependent Role="New_ChatReviewTask">
+              <PropertyRef Name="New_ChatRoomRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChatRoom" EntityType="Self.ChatRoom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChatRoomMember" EntityType="Self.ChatRoomMember" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ChatRoomRecord" EntityType="Self.ChatRoomRecord" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Friend" EntityType="Self.Friend" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="New_ChatReviewTask" EntityType="Self.New_ChatReviewTask" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ChatRoomMember_Account" Association="Self.FK_ChatRoomMember_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="ChatRoomMember" EntitySet="ChatRoomMember" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChatRoomMember_ChatRoom" Association="Self.FK_ChatRoomMember_ChatRoom">
+            <End Role="ChatRoom" EntitySet="ChatRoom" />
+            <End Role="ChatRoomMember" EntitySet="ChatRoomMember" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChatRoomRecord_ChatRoom" Association="Self.FK_ChatRoomRecord_ChatRoom">
+            <End Role="ChatRoom" EntitySet="ChatRoom" />
+            <End Role="ChatRoomRecord" EntitySet="ChatRoomRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChatRoomRecord_ChatRoomMember" Association="Self.FK_ChatRoomRecord_ChatRoomMember">
+            <End Role="ChatRoomMember" EntitySet="ChatRoomMember" />
+            <End Role="ChatRoomRecord" EntitySet="ChatRoomRecord" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Friend_Account" Association="Self.FK_Friend_Account">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Friend" EntitySet="Friend" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Friend_Account1" Association="Self.FK_Friend_Account1">
+            <End Role="Account" EntitySet="Account" />
+            <End Role="Friend" EntitySet="Friend" />
+          </AssociationSet>
+          <AssociationSet Name="FK_New_ChatReviewTask_ChatRoomRecord" Association="Self.FK_New_ChatReviewTask_ChatRoomRecord">
+            <End Role="ChatRoomRecord" EntitySet="ChatRoomRecord" />
+            <End Role="New_ChatReviewTask" EntitySet="New_ChatReviewTask" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Account">
+          <Key>
+            <PropertyRef Name="AccountId" />
+          </Key>
+          <Property Name="AccountId" Type="Guid" Nullable="false" />
+          <Property Name="AccountNo" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="511" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Nickname" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreateDateTime" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UpdateDateTime" Type="DateTimeOffset" Precision="7" />
+          <Property Name="Role" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LockDateTime" Type="DateTimeOffset" Precision="7" />
+          <Property Name="LockReason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ChatRoomMembers" Relationship="Self.FK_ChatRoomMember_Account" FromRole="Account" ToRole="ChatRoomMember" />
+          <NavigationProperty Name="Friends" Relationship="Self.FK_Friend_Account" FromRole="Account" ToRole="Friend" />
+          <NavigationProperty Name="Friends1" Relationship="Self.FK_Friend_Account1" FromRole="Account" ToRole="Friend" />
+        </EntityType>
+        <EntityType Name="ChatRoom">
+          <Key>
+            <PropertyRef Name="ChatRoomId" />
+          </Key>
+          <Property Name="ChatRoomId" Type="Guid" Nullable="false" />
+          <Property Name="ChatRoomNo" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="CreateDateTime" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UpdateDateTime" Type="DateTimeOffset" Precision="7" />
+          <NavigationProperty Name="ChatRoomMembers" Relationship="Self.FK_ChatRoomMember_ChatRoom" FromRole="ChatRoom" ToRole="ChatRoomMember" />
+          <NavigationProperty Name="ChatRoomRecords" Relationship="Self.FK_ChatRoomRecord_ChatRoom" FromRole="ChatRoom" ToRole="ChatRoomRecord" />
+        </EntityType>
+        <EntityType Name="ChatRoomMember">
+          <Key>
+            <PropertyRef Name="ChatRoomMemberId" />
+          </Key>
+          <Property Name="ChatRoomMemberId" Type="Guid" Nullable="false" />
+          <Property Name="ChatRoomMemberNo" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChatRoomId" Type="Guid" Nullable="false" />
+          <Property Name="AccountId" Type="Guid" Nullable="false" />
+          <Property Name="Role" Type="Int32" Nullable="false" />
+          <Property Name="CreateDateTime" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UpdateDateTime" Type="DateTimeOffset" Precision="7" />
+          <NavigationProperty Name="Account" Relationship="Self.FK_ChatRoomMember_Account" FromRole="ChatRoomMember" ToRole="Account" />
+          <NavigationProperty Name="ChatRoom" Relationship="Self.FK_ChatRoomMember_ChatRoom" FromRole="ChatRoomMember" ToRole="ChatRoom" />
+          <NavigationProperty Name="ChatRoomRecords" Relationship="Self.FK_ChatRoomRecord_ChatRoomMember" FromRole="ChatRoomMember" ToRole="ChatRoomRecord" />
+        </EntityType>
+        <EntityType Name="ChatRoomRecord">
+          <Key>
+            <PropertyRef Name="ChatRoomRecordId" />
+          </Key>
+          <Property Name="ChatRoomRecordId" Type="Guid" Nullable="false" />
+          <Property Name="ChatRoomRecordNo" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChatRoomId" Type="Guid" Nullable="false" />
+          <Property Name="ChatRoomMemberId" Type="Guid" />
+          <Property Name="Message" Type="String" MaxLength="511" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDateTime" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UpdateDateTime" Type="DateTimeOffset" Precision="7" />
+          <NavigationProperty Name="ChatRoom" Relationship="Self.FK_ChatRoomRecord_ChatRoom" FromRole="ChatRoomRecord" ToRole="ChatRoom" />
+          <NavigationProperty Name="ChatRoomMember" Relationship="Self.FK_ChatRoomRecord_ChatRoomMember" FromRole="ChatRoomRecord" ToRole="ChatRoomMember" />
+          <NavigationProperty Name="New_ChatReviewTask" Relationship="Model.FK_New_ChatReviewTask_ChatRoomRecord" FromRole="ChatRoomRecord" ToRole="New_ChatReviewTask" />
+        </EntityType>
+        <EntityType Name="Friend">
+          <Key>
+            <PropertyRef Name="FriendId" />
+          </Key>
+          <Property Name="FriendId" Type="Guid" Nullable="false" />
+          <Property Name="FriendNo" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountId" Type="Guid" Nullable="false" />
+          <Property Name="FriendAccountId" Type="Guid" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="CreateDateTime" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UpdateDateTime" Type="DateTimeOffset" Precision="7" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Account" Relationship="Self.FK_Friend_Account" FromRole="Friend" ToRole="Account" />
+          <NavigationProperty Name="Account1" Relationship="Self.FK_Friend_Account1" FromRole="Friend" ToRole="Account" />
+        </EntityType>
+        <Association Name="FK_ChatRoomMember_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="ChatRoomMember" Type="Self.ChatRoomMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="ChatRoomMember">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Friend_Account">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Friend" Type="Self.Friend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Friend">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Friend_Account1">
+          <End Role="Account" Type="Self.Account" Multiplicity="1" />
+          <End Role="Friend" Type="Self.Friend" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Friend">
+              <PropertyRef Name="FriendAccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChatRoomMember_ChatRoom">
+          <End Role="ChatRoom" Type="Self.ChatRoom" Multiplicity="1" />
+          <End Role="ChatRoomMember" Type="Self.ChatRoomMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChatRoom">
+              <PropertyRef Name="ChatRoomId" />
+            </Principal>
+            <Dependent Role="ChatRoomMember">
+              <PropertyRef Name="ChatRoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChatRoomRecord_ChatRoom">
+          <End Role="ChatRoom" Type="Self.ChatRoom" Multiplicity="1" />
+          <End Role="ChatRoomRecord" Type="Self.ChatRoomRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChatRoom">
+              <PropertyRef Name="ChatRoomId" />
+            </Principal>
+            <Dependent Role="ChatRoomRecord">
+              <PropertyRef Name="ChatRoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChatRoomRecord_ChatRoomMember">
+          <End Role="ChatRoomMember" Type="Self.ChatRoomMember" Multiplicity="0..1" />
+          <End Role="ChatRoomRecord" Type="Self.ChatRoomRecord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChatRoomMember">
+              <PropertyRef Name="ChatRoomMemberId" />
+            </Principal>
+            <Dependent Role="ChatRoomRecord">
+              <PropertyRef Name="ChatRoomMemberId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entity" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accounts" EntityType="Self.Account" />
+          <EntitySet Name="ChatRooms" EntityType="Self.ChatRoom" />
+          <EntitySet Name="ChatRoomMembers" EntityType="Self.ChatRoomMember" />
+          <EntitySet Name="ChatRoomRecords" EntityType="Self.ChatRoomRecord" />
+          <EntitySet Name="Friends" EntityType="Self.Friend" />
+          <AssociationSet Name="FK_ChatRoomMember_Account" Association="Self.FK_ChatRoomMember_Account">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="ChatRoomMember" EntitySet="ChatRoomMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Friend_Account" Association="Self.FK_Friend_Account">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Friend" EntitySet="Friends" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Friend_Account1" Association="Self.FK_Friend_Account1">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Friend" EntitySet="Friends" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChatRoomMember_ChatRoom" Association="Self.FK_ChatRoomMember_ChatRoom">
+            <End Role="ChatRoom" EntitySet="ChatRooms" />
+            <End Role="ChatRoomMember" EntitySet="ChatRoomMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChatRoomRecord_ChatRoom" Association="Self.FK_ChatRoomRecord_ChatRoom">
+            <End Role="ChatRoom" EntitySet="ChatRooms" />
+            <End Role="ChatRoomRecord" EntitySet="ChatRoomRecords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChatRoomRecord_ChatRoomMember" Association="Self.FK_ChatRoomRecord_ChatRoomMember">
+            <End Role="ChatRoomMember" EntitySet="ChatRoomMembers" />
+            <End Role="ChatRoomRecord" EntitySet="ChatRoomRecords" />
+          </AssociationSet>
+          <EntitySet Name="sysdiagrams" EntityType="Model.sysdiagram" />
+          <EntitySet Name="New_ChatReviewTask" EntityType="Model.New_ChatReviewTask" />
+          <AssociationSet Name="FK_New_ChatReviewTask_ChatRoomRecord" Association="Model.FK_New_ChatReviewTask_ChatRoomRecord">
+            <End Role="ChatRoomRecord" EntitySet="ChatRoomRecords" />
+            <End Role="New_ChatReviewTask" EntitySet="New_ChatReviewTask" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="New_ChatReviewTask">
+          <Key>
+            <PropertyRef Name="New_ReviewId" />
+          </Key>
+          <Property Name="New_ReviewId" Type="Guid" Nullable="false" />
+          <Property Name="New_ChatRoomRecordId" Type="Guid" Nullable="false" />
+          <Property Name="New_DetectedKeyword" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="New_ReviewStatus" Type="Byte" Nullable="false" />
+          <Property Name="New_CreateDateTime" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <NavigationProperty Name="ChatRoomRecord" Relationship="Model.FK_New_ChatReviewTask_ChatRoomRecord" FromRole="New_ChatReviewTask" ToRole="ChatRoomRecord" />
+        </EntityType>
+        <Association Name="FK_New_ChatReviewTask_ChatRoomRecord">
+          <End Type="Model.ChatRoomRecord" Role="ChatRoomRecord" Multiplicity="1" />
+          <End Type="Model.New_ChatReviewTask" Role="New_ChatReviewTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChatRoomRecord">
+              <PropertyRef Name="ChatRoomRecordId" />
+            </Principal>
+            <Dependent Role="New_ChatReviewTask">
+              <PropertyRef Name="New_ChatRoomRecordId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entity">
+          <EntitySetMapping Name="Accounts">
+            <EntityTypeMapping TypeName="Model.Account">
+              <MappingFragment StoreEntitySet="Account">
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="AccountNo" ColumnName="AccountNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+                <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+                <ScalarProperty Name="UpdateDateTime" ColumnName="UpdateDateTime" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="LockDateTime" ColumnName="LockDateTime" />
+                <ScalarProperty Name="LockReason" ColumnName="LockReason" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChatRooms">
+            <EntityTypeMapping TypeName="Model.ChatRoom">
+              <MappingFragment StoreEntitySet="ChatRoom">
+                <ScalarProperty Name="ChatRoomId" ColumnName="ChatRoomId" />
+                <ScalarProperty Name="ChatRoomNo" ColumnName="ChatRoomNo" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+                <ScalarProperty Name="UpdateDateTime" ColumnName="UpdateDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChatRoomMembers">
+            <EntityTypeMapping TypeName="Model.ChatRoomMember">
+              <MappingFragment StoreEntitySet="ChatRoomMember">
+                <ScalarProperty Name="ChatRoomMemberId" ColumnName="ChatRoomMemberId" />
+                <ScalarProperty Name="ChatRoomMemberNo" ColumnName="ChatRoomMemberNo" />
+                <ScalarProperty Name="ChatRoomId" ColumnName="ChatRoomId" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+                <ScalarProperty Name="UpdateDateTime" ColumnName="UpdateDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ChatRoomRecords">
+            <EntityTypeMapping TypeName="Model.ChatRoomRecord">
+              <MappingFragment StoreEntitySet="ChatRoomRecord">
+                <ScalarProperty Name="ChatRoomRecordId" ColumnName="ChatRoomRecordId" />
+                <ScalarProperty Name="ChatRoomRecordNo" ColumnName="ChatRoomRecordNo" />
+                <ScalarProperty Name="ChatRoomId" ColumnName="ChatRoomId" />
+                <ScalarProperty Name="ChatRoomMemberId" ColumnName="ChatRoomMemberId" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+                <ScalarProperty Name="UpdateDateTime" ColumnName="UpdateDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Friends">
+            <EntityTypeMapping TypeName="Model.Friend">
+              <MappingFragment StoreEntitySet="Friend">
+                <ScalarProperty Name="FriendId" ColumnName="FriendId" />
+                <ScalarProperty Name="FriendNo" ColumnName="FriendNo" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="FriendAccountId" ColumnName="FriendAccountId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="CreateDateTime" ColumnName="CreateDateTime" />
+                <ScalarProperty Name="UpdateDateTime" ColumnName="UpdateDateTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Model.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="New_ChatReviewTask">
+            <EntityTypeMapping TypeName="Model.New_ChatReviewTask">
+              <MappingFragment StoreEntitySet="New_ChatReviewTask">
+                <ScalarProperty Name="New_CreateDateTime" ColumnName="New_CreateDateTime" />
+                <ScalarProperty Name="New_ReviewStatus" ColumnName="New_ReviewStatus" />
+                <ScalarProperty Name="New_DetectedKeyword" ColumnName="New_DetectedKeyword" />
+                <ScalarProperty Name="New_ChatRoomRecordId" ColumnName="New_ChatRoomRecordId" />
+                <ScalarProperty Name="New_ReviewId" ColumnName="New_ReviewId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

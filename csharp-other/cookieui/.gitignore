@@ -1,0 +1,71 @@
+## [ Visual Studio ]
+# 使用者專屬檔案 (User-specific files)
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# 使用者專屬專案檔 (User-specific project files)
+*.sqlproj.user
+*.csproj.user
+*.vbproj.user
+*.vcxproj.user
+*.vcxproj.filters
+
+# 建置輸出目錄 (Build results)
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Xx]64/
+[Xx]86/
+[Aa]rm/
+[Aa]rm64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio 2015/2017/2019/2022 快取與工作目錄
+.vs/
+# 如果你希望保留 .vs 裡的某些設定，可以考慮只排除裡面的特定資料夾
+# .vs/*
+
+# Roslyn 分析器快取
+*.pot
+
+## [ 套件管理 (Package Management) ]
+# NuGet 套件
+*.nupkg
+# 典型的 NuGet 套件存放路徑
+**/packages/*
+# 不排除存儲庫檔案
+!**/packages/repository.config
+
+# 取代舊式 NuGet 還原方式的專案資料夾
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## [ 其他工具 (Others) ]
+# 單元測試結果
+TestResults/
+*.trx
+
+# 程式碼涵蓋率工具
+*.sequencediagram.layout
+*.coverage
+*.coveragexml
+
+# 發行(Publish) 產生的暫存檔
+*.publish.xml
+*.pubxml
+*.pubxml.user
+
+# Azure Cloud Services 暫存檔
+csx/
+*.CredentialStore
+
+# 模擬器暫存檔
+CompoundFile.7z

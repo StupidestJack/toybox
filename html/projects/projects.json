@@ -1,0 +1,96 @@
+[
+  {
+    "title": "Bean CPU",
+    "description": "基於 C# 的 16-bit CPU 模擬器，人生第一次跟人類合作",
+    "language": "C#",
+    "date": "2026-2-5",
+    "github": "beanCPU",
+    "feat": "SeanOne、Gemini、DeepSeek",
+    "legacy": false,
+    "end":false
+  },
+  {
+    "title": "我的部落格",
+    "description": "部落格pages",
+    "language": "HTML",
+    "date": "2026-2-5",
+    "pages": "blog",
+    "github": "blog",
+    "feat": "Gemini",
+    "legacy": false,
+    "end":false
+  },
+  {
+    "title": "Candyshell",
+    "description": "小時候PowerPoint UI的MDI重構",
+    "language": "C#",
+    "date": "2026-2-3",
+    "version":"1.0.42",
+    "download": "https://github.com/StupidestJack/Candyshell/releases",
+    "github": "Candyshell",
+    "feat": "Gemini",
+    "legacy": false,
+    "end":false
+  },
+  {
+    "title": "Nightly Tree",
+    "description": "使用.NET 2.0寫的抗藍光小工具",
+    "language": "C#",
+    "date": "2025-11-19",
+    "version":"1.7",
+    "download": "https://github.com/StupidestJack/NightlyTree/releases",
+    "github": "NightlyTree",
+    "feat": "Copilot",
+    "legacy": false,
+    "end":true
+  },
+  {
+    "title": "Python赤石科技",
+    "description": "我用 Python 寫的一些赤石科技，屬於Unlicense的專案。",
+    "language": "Python",
+    "date": "2025-9-2",
+    "download": "https://github.com/StupidestJack/holysh1ting-python-project/archive/refs/heads/main.zip",
+    "github": "holysh1ting-python-project",
+    "feat": "Copilot",
+    "legacy": false,
+    "end":false
+  },
+  {
+    "title": "新的專案櫃",
+    "description": "解決了億點點舊版專案櫃的毛病，舊版不再更新。",
+    "language": "HTML",
+    "date": "2025-9-2",
+    "version":"2.5.1",
+    "pages": "projects-placement-pages/index.html",
+    "github": "projects-placement-pages",
+    "feat": "Copilot",
+    "legacy": false,
+    "end":false
+  },
+  {
+    "title": "Gemini 碼表",
+    "description": "丟給 Gemini 重構的實驗碼表",
+    "language": "HTML",
+    "date": "2026-2-4",
+    "version":"2.0",
+    "pages": "geministopwatch",
+    "github": "geministopwatch",
+    "feat": "Gemini",
+    "legacy": false,
+    "end":false
+  },
+  {
+    "title": "實驗用碼表",
+    "description": "舊帳號，下台一鞠躬！",
+    "language": "HTML",
+    "date": "2024-8-17",
+    "version":"1.0",
+    "pages": "forexperimentstopwatch/stopwatch.html",
+    "github": "forexperimentstopwatch",
+    "feat": "ChatGPT",
+    "legacy": true,
+    "end":true
+  }
+]
+
+
