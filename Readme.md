@@ -1,19 +1,23 @@
 # toybox
 Useless old projects.
 
-I created this for archive my old projects.
+Created to archive my past projects.
 
 ## Directories
- * `c` - for C projects.
- * `csharp-other` - for C# projects without 'SHLife' projects.
- * `html` - for HTML and web projects.
- * `python` - for Python projects.
- * `shlife` - my 56th National Skills Competitions practicing projects.
- * `tonekozhtw` - [toNeko] Minecraft mod's abandoned Trad. Chinese translations.
- * `zako` - cringe pictures to some phone & PC brands.
+* `c` - C projects.
+* `csharp-other` - C# projects (excluding 'SHLife').
+* `html` - HTML and web projects.
+* `python` - Python projects.
+* `shlife` - Practice projects for the 56th National Skills Competition.
+* `tonekozhtw` - Abandoned Traditional Chinese translations for the [toNeko] Minecraft mod.
+* `zako` - Cringe memes/pictures about certain phone & PC brands.
 
-## Special Things
-I closed issues, pull request and wiki. They're my archived projects. I edited them a little to keep their original appearance. So modifications are not welcome for this project; all projects are released as AS IS. But you can fork and edit them.
+## Notes
+Issues, Pull Requests, and Wiki are disabled as this is an archive repository. The source code has been slightly cleaned up while preserving its original state. 
+
+Contributions and modifications are not accepted here; everything is provided **AS IS**. Feel free to fork and modify it on your own.
 
 ## License
-Based on BSD 2-Clause "Simplified" License.
+Licensed under the [BSD 2-Clause "Simplified" License](LICENSE).
+
+(Edited with the assistance of Gemini)
